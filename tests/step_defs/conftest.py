@@ -8,10 +8,14 @@ from pytest_bdd import given
 import pytest_html  
 import selenium.webdriver as webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 import time
 from datetime import datetime
 
+
+servico = Service(ChromeDriverManager().install())
 
 # Hooks
 def pytest_bdd_step_error(request, feature, scenario, step, step_func, step_func_args, exception):
@@ -54,7 +58,7 @@ def browser(config):
         elif config['browser'] == 'Chrome':
             opts = webdriver.ChromeOptions()
             opts.add_argument('--window-size=1366,768')
-            b = webdriver.Chrome(options=opts)
+            b = webdriver.Chrome(service=servico, options=opts)
         elif config['browser'] == 'Headless Chrome':
             opts = webdriver.ChromeOptions()
             opts.add_argument('headless')
