@@ -92,6 +92,14 @@ def browser(config):
     #Sai da instancia do WebDriver (limpa ao fim do teste)
     b.quit()
 
+# Right login data
+@pytest.fixture
+def login_credentials(config):
+    return {
+        'email': config['valid_user'],
+        'password': config['valid_password']
+    }
+
 
 # Shared given steps
 @given('I am the right user', target_fixture="right_user")

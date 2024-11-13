@@ -5,13 +5,12 @@ Feature: Login Rubeus Account
     So user can access the environment list 
 
     # Background:
-    #     Given the Account login page is displayed
+        # Given the Account login page is displayed
 
     @right-user
     Scenario: Login with right data
         Given the Account login page is displayed
-        When user fills email field with "matheusvieira@rubeus.com.br"
-        And user fills password field with "exemplo"
+        When user fill email and password with right data
         And user clicks Entrar
         Then the Account environments page is displayed
         And user has many listed environments

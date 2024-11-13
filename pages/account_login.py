@@ -19,14 +19,8 @@ class AccountLoginPage(SeleniumObject):
     ENTRAR_BUTTON = (By.XPATH, "//div[@class='mdc-form-field mdc-form__item'][contains(.,'Entrar')]")
     ERROR_MESSAGE = (By.XPATH, "//span[@class='textSnackbar'][contains(.,'E-mail ou senha inválidos.')]")
 
-    # Initializer
-    def __init__(self, browser):
-        self.browser = browser
 
     # Interaction Methods
-    def load(self):
-        self.browser.get(self.URL)
-
     def fill_email(self, email):
         email_input = self.find_element(self.EMAIL_INPUT)
         email_input.send_keys(email)
@@ -51,4 +45,4 @@ class AccountLoginPage(SeleniumObject):
         if element:
             element.send_keys(Keys.ENTER)
         else:
-            self.browser.find_element(By.TAG_NAME, "body").send_keys(Keys.ENTER)
+            self.find_element(By.TAG_NAME, "body").send_keys(Keys.ENTER)

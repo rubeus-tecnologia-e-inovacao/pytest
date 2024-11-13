@@ -4,6 +4,12 @@ from abc import ABC
 
 # Browser
 class SeleniumObject:
+    def __init__(self, browser):
+        self.browser = browser
+
+    def load(self):
+        self.browser.get(self.URL)
+
     def find_element(self, locator):
         return self.browser.find_element(*locator)
 
