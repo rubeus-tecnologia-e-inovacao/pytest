@@ -3,7 +3,8 @@
     "type": "local",
     "implicit_wait": 10,
     "url_remote": "http://localhost:4444/wd/hub",
-    "environment": "https://crmrbacademy.apprubeus.com.br",
-    "valid_user": "exemplo@rubeus.com.br",
-    "valid_password": "exemploSenha"
+    "account_environment": "https://loginhomolog.apprbs.com.br",
+    "crm_environment": "https://crmdev6.apprbs.com.br",
+    "valid_user": "renatoteste@rubeus.com.br",
+    "valid_password": "exemplo"
 }

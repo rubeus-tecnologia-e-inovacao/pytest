@@ -10,7 +10,9 @@ from libraries.pom import SeleniumObject
 
 class AccountLoginPage(SeleniumObject):
 
-    URL = "https://login.rubeus.com.br/"
+    # URL = "https://login.rubeus.com.br/"
+    URL = "https://loginhomolog.apprbs.com.br/"
+
 
     # Locators
     EMAIL_INPUT = (By.XPATH, "(//input[@class='mdc-text-field__input'])[1]")

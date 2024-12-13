@@ -6,7 +6,12 @@ import json
 import pytest
 from pytest_bdd import given
 import pytest_html  
+import time
 import selenium.webdriver as webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -37,8 +42,8 @@ def config(scope='session'):
     assert config['implicit_wait'] > 0
     assert isinstance(config['url_remote'], str)
     assert len(config['url_remote']) > 0
-    assert isinstance(config['environment'], str)
-    assert len(config['environment']) > 0
+    assert isinstance(config['crm_environment'], str)
+    assert len(config['crm_environment']) > 0
 
     # Return a dictionary of configs
     return config
@@ -54,7 +59,7 @@ def browser(config):
         if config['browser'] == 'Firefox':
             opts = webdriver.FirefoxOptions()
             opts.add_argument('--window-size=1366,768')
-            b.webdriver.Firefox(options=opts)
+            b = webdriver.Firefox(options=opts)
         elif config['browser'] == 'Chrome':
             opts = webdriver.ChromeOptions()
             opts.add_argument('--window-size=1366,768')
@@ -92,7 +97,7 @@ def browser(config):
     #Sai da instancia do WebDriver (limpa ao fim do teste)
     b.quit()
 
-# Right login data
+
 @pytest.fixture
 def login_credentials(config):
     return {
@@ -101,10 +106,21 @@ def login_credentials(config):
     }
 
 
+# Browser authentication
+@pytest.fixture
+def login(browser, config):
+    timeout = 10
+    browser.get(config["account_environment"])  # URL da página de login do account
+    browser.find_element(By.XPATH, "(//input[@class='mdc-text-field__input'])[1]").send_keys(config["valid_user"])
+    browser.find_element(By.XPATH, "(//input[@class='mdc-text-field__input'])[2]").send_keys(config["valid_password"])
+    entrar = WebDriverWait(browser, timeout).until( 
+        EC.element_to_be_clickable((By.XPATH, "//div[@class='mdc-form-field mdc-form__item'][contains(.,'Entrar')]")) )
+    entrar.click()
+    time.sleep(0.5)
+    return browser
+
+
 # Shared given steps
-@given('I am the right user', target_fixture="right_user")
-def right_user_account():
-    return {
-        'email': 'exemplo@mail.com.br',
-        'password': 'exemplo'
-    }
+@given("I am logged in as a valid user", target_fixture="logged_in_browser")
+def logged_in_user(login):
+    return login  # Garante que o estado do usuário autenticado seja reutilizado
